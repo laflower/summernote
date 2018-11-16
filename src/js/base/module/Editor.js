@@ -12,8 +12,6 @@ import Typing from '../editing/Typing';
 import Table from '../editing/Table';
 import Bullet from '../editing/Bullet';
 
-const KEY_BOGUS = 'bogus';
-
 /**
  * @class Editor
  */
@@ -690,17 +688,6 @@ export default class Editor {
     if (rng) {
       const spans = this.style.styleNodes(rng);
       $(spans).css(target, value);
-
-      // [workaround] added styled bogus span for style
-      //  - also bogus character needed for cursor position
-      if (rng.isCollapsed()) {
-        const firstSpan = lists.head(spans);
-        if (firstSpan && !dom.nodeLength(firstSpan)) {
-          firstSpan.innerHTML = dom.ZERO_WIDTH_NBSP_CHAR;
-          range.createFromNodeAfter(firstSpan.firstChild).select();
-          this.$editable.data(KEY_BOGUS, firstSpan);
-        }
-      }
     }
   }
 
